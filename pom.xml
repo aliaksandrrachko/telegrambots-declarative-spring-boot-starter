@@ -12,7 +12,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-declarative-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <licenses>
         <license>
