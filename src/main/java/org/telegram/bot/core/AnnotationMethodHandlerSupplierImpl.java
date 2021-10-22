@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -90,7 +89,7 @@ public class AnnotationMethodHandlerSupplierImpl implements IAnnotationMethodHan
                 .collect(ArrayList::new, (methods, o) -> {
                     List<Method> collect = Arrays.stream(o.getClass().getMethods())
                             .filter(objectMethod -> objectMethod.isAnnotationPresent(annotationType))
-                            .collect(Collectors.toList());
+                            .toList();
                     methods.addAll(collect);
                 }, ArrayList::addAll);
     }
@@ -105,40 +104,48 @@ public class AnnotationMethodHandlerSupplierImpl implements IAnnotationMethodHan
                         boolean valueFieldMatchResult = false;
                         boolean regexFieldMathResult = false;
                         for (Method annotationsMethod : annotation.annotationType().getDeclaredMethods()) {
-
-                            if (annotationsMethod.getName().equals("value")){
-                                Object valueFromAnnotation = annotationsMethod.invoke(annotation);
-                                if (valueFromAnnotation instanceof String) {
-                                    valueFieldMatchResult = Arrays.asList(value).contains(valueFromAnnotation);
-                                } else if (valueFromAnnotation instanceof String[]){
-                                    valueFieldMatchResult = Arrays.stream(value).anyMatch(s -> Arrays.asList((String[]) valueFromAnnotation).contains(s));
-                                }
-                            }
-
-                            if (annotationsMethod.getName().equals("regexp")){
-                                String regexFromAnnotation = (String) annotationsMethod.invoke(annotation);
-
-                                if (!regexFromAnnotation.equals("")){
-                                    Pattern regexPattern = Pattern.compile(regexFromAnnotation);
-                                    regexFieldMathResult = Arrays.stream(value).anyMatch(s -> regexPattern.matcher(s).matches());
-                                }
-                            }
+                            valueFieldMatchResult = isValueFieldMatchResult(annotation, annotationsMethod, value);
+                            regexFieldMathResult = isRegexFieldMathResult(annotation, annotationsMethod, value);
+                            // there you can add some 'else'
                         }
-
-                        // there you can add some 'else'
-
                         return valueFieldMatchResult || regexFieldMathResult;
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         log.error(e.getMessage(), e);
                     }
                     // there get class of value from annotation
                     return true;
-                }).collect(Collectors.toList());
+                }).toList();
 
         if (foundMethods.size() != 1){
             throw new UnsupportedTelegramBotMappingException(value);
         } else {
             return foundMethods.get(0);
         }
+    }
+
+    private boolean isRegexFieldMathResult(Annotation annotation, Method annotationsMethod, String[] value)
+            throws IllegalAccessException, InvocationTargetException {
+        if (annotationsMethod.getName().equals("regexp")){
+            String regexFromAnnotation = (String) annotationsMethod.invoke(annotation);
+
+            if (!regexFromAnnotation.equals("")){
+                Pattern regexPattern = Pattern.compile(regexFromAnnotation);
+                return Arrays.stream(value).anyMatch(s -> regexPattern.matcher(s).matches());
+            }
+        }
+        return false;
+    }
+
+    private boolean isValueFieldMatchResult(Annotation annotation, Method annotationsMethod, String[] value)
+            throws IllegalAccessException, InvocationTargetException {
+        if (annotationsMethod.getName().equals("value")){
+            Object valueFromAnnotation = annotationsMethod.invoke(annotation);
+            if (valueFromAnnotation instanceof String) {
+                return Arrays.asList(value).contains(valueFromAnnotation);
+            } else if (valueFromAnnotation instanceof String[] strings){
+                return Arrays.stream(value).anyMatch(s -> Arrays.asList(strings).contains(s));
+            }
+        }
+        return false;
     }
 }

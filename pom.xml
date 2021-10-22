@@ -12,7 +12,50 @@
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-declarative-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <name>Declarative Telegram Bot</name>
+    <url>https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter</url>
+    <description>A simple-to-use spring boot starter to create Telegram Bots in Java</description>
+
+    <issueManagement>
+        <url>https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</url>
+        <connection>scm:git:git://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</connection>
+        <developerConnection>scm:git:git@github.com:aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>rachko.a.ch@gmail.com</email>
+            <name>Ales' Rachko</name>
+            <url>https://github.com/aliaksandrrachko</url>
+            <id>aliaksandrrachko</id>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -80,5 +123,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
