@@ -1,6 +1,8 @@
 package org.telegram.bot.core.annotations;
 
 import org.springframework.stereotype.Component;
+import org.telegram.bot.core.UpdateReceiver;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,6 +10,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation for handling {@link Message} requests onto specific handler method.
+ * <br/> In method with this annotation can be injected {@link Message}.
+ *
+ * @see Message
+ * @see UpdateReceiver
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -15,7 +24,7 @@ import java.lang.annotation.Target;
 public @interface Command {
 
     /**
-     * Returns name of command name.
+     * @return supported values from {@link Message#getText()}
      */
     String[] value();
 }

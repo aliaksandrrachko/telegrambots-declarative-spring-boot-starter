@@ -79,14 +79,28 @@ bot.token=bot_token
 4. After that your bot commands handlers will look like:
 
 ```java
+import org.telegram.bot.core.annotations.CallBack;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 // Handlers annotation
 @Handler
 public class StartHandler {
 
-    // Command annotation
+    // Command annotation or Callback
     @Command(value = "/start")
+    @CallBack(value = "/start")
     public String startHandlerMethod(Message message) {
-        return "Hi!";
+        // some logic here
+        return "Hi!"; // your response
+    }
+
+    @State(value = "/write_date")
+    public SendMessage getEvents(Message message) {
+        String messageText = message.getText(); // get writing data
+        SendMessage sendMessage = new SendMessage();
+        // some logic here else
+        sendMessage.setText("Thanks you!");
+        return sendMessage; // response
     }
 }
 ```
