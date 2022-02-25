@@ -5,14 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.telegram.bot.core.annotations.CallBack;
-import org.telegram.bot.core.annotations.Command;
 import org.telegram.bot.core.annotations.ExceptionHandler;
 import org.telegram.bot.core.annotations.Handler;
-import org.telegram.bot.core.annotations.MessageTextQuery;
-import org.telegram.bot.core.annotations.State;
 import org.telegram.bot.core.exceptions.UnsupportedTelegramBotMappingException;
-import org.telegram.bot.core.interfaces.IAnnotationMethodHandlerSupplier;
+import org.telegram.bot.core.interfaces.AnnotationMethodHandlerSupplier;
 
 import javax.annotation.PostConstruct;
 import java.lang.annotation.Annotation;
@@ -28,7 +24,7 @@ import java.util.regex.Pattern;
 @Slf4j
 // todo: think about context of handlers (ex. Map<Annotation, ...)
 // todo: in the future, adds processes equals 'value' to difference type
-public class AnnotationMethodHandlerSupplierImpl implements IAnnotationMethodHandlerSupplier {
+public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHandlerSupplier {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -46,28 +42,49 @@ public class AnnotationMethodHandlerSupplierImpl implements IAnnotationMethodHan
     }
 
     @Override
-    public Method getSupportedBotCommandMethod(String... value) {
-        return getSupportedValuesMethod(Command.class, value);
+    public Method getSupportedMethod(Operation operation, String... value) {
+        return getSupportedValuesMethod(operation.getAnnotationClass(), value);
     }
 
     @Override
-    public Method getSupportedCallBackMethod(String... value) {
-        return getSupportedValuesMethod(CallBack.class, value);
+    public Method getSupportedExceptionHandler(Class<? extends Throwable>... values) {
+        Class<? extends Annotation> annotationType = ExceptionHandler.class;
+        List<Method> annotatedMethods = getAnnotatedMethods(annotationType);
+        List<Method> foundMethods = annotatedMethods.stream()
+                .filter(method -> {
+                    Annotation annotation = method.getAnnotation(annotationType);
+                    try {
+                        boolean valueFieldMatchClass = false;
+                        for (Method annotationsMethod : annotation.annotationType().getDeclaredMethods()) {
+                            valueFieldMatchClass = isValueFieldMatchClass(annotation, annotationsMethod, values);
+                            // there you can add some 'else'
+                        }
+                        return valueFieldMatchClass;
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        log.error(e.getMessage(), e);
+                    }
+                    // there get class of value from annotation
+                    return true;
+                }).toList();
+
+        if (foundMethods.size() != 1){
+            return null;
+        } else {
+            return foundMethods.get(0);
+        }
     }
 
-    @Override
-    public Method getSupportedMessageTextHandler(String... value) {
-        return getSupportedValuesMethod(MessageTextQuery.class, value);
-    }
-
-    @Override
-    public Method getSupportedStateHandler(String... value) {
-        return getSupportedValuesMethod(State.class, value);
-    }
-
-    @Override
-    public Method getSupportedExceptionHandler(String... value) {
-        return getSupportedValuesMethod(ExceptionHandler.class, value);
+    private boolean isValueFieldMatchClass(Annotation annotation, Method annotationsMethod, Class<? extends Throwable>[] values)
+            throws InvocationTargetException, IllegalAccessException {
+        if (annotationsMethod.getName().equals("value")){
+            Object valueFromAnnotation = annotationsMethod.invoke(annotation);
+            if (valueFromAnnotation instanceof Class<?>) {
+                return Arrays.asList(values).contains(valueFromAnnotation);
+            } else if (valueFromAnnotation instanceof Class<?>[] classes){
+                return Arrays.stream(values).anyMatch(s -> Arrays.asList(classes).contains(s));
+            }
+        }
+        return false;
     }
 
     @Override
@@ -119,7 +136,7 @@ public class AnnotationMethodHandlerSupplierImpl implements IAnnotationMethodHan
         if (foundMethods.size() != 1){
             throw new UnsupportedTelegramBotMappingException(value);
         } else {
-            return foundMethods.get(0);
+            return foundMethods.stream().findAny().orElseThrow();
         }
     }
 
@@ -136,14 +153,14 @@ public class AnnotationMethodHandlerSupplierImpl implements IAnnotationMethodHan
         return false;
     }
 
-    private boolean isValueFieldMatchResult(Annotation annotation, Method annotationsMethod, String[] value)
+    private boolean isValueFieldMatchResult(Annotation annotation, Method annotationsMethod, String[] values)
             throws IllegalAccessException, InvocationTargetException {
         if (annotationsMethod.getName().equals("value")){
             Object valueFromAnnotation = annotationsMethod.invoke(annotation);
             if (valueFromAnnotation instanceof String) {
-                return Arrays.asList(value).contains(valueFromAnnotation);
+                return Arrays.asList(values).contains(valueFromAnnotation);
             } else if (valueFromAnnotation instanceof String[] strings){
-                return Arrays.stream(value).anyMatch(s -> Arrays.asList(strings).contains(s));
+                return Arrays.stream(values).anyMatch(s -> Arrays.asList(strings).contains(s));
             }
         }
         return false;

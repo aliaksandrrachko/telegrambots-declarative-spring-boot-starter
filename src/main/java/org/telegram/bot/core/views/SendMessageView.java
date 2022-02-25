@@ -1,7 +1,7 @@
 package org.telegram.bot.core.views;
 
 import org.springframework.stereotype.Component;
-import org.telegram.bot.core.interfaces.IView;
+import org.telegram.bot.core.interfaces.View;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SendMessageView implements IView<SendMessage> {
+public class SendMessageView implements View<SendMessage> {
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {

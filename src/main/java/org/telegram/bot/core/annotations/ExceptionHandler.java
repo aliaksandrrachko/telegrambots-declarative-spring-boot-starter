@@ -16,7 +16,8 @@ import java.lang.annotation.Target;
 public @interface ExceptionHandler {
 
     /**
-     * Full classes name of exceptions
+     * Exceptions handled by the annotated method. If empty, will default to any
+     * exceptions listed in the method argument list.
      */
-    String[] value() default {""};
+    Class<? extends Throwable>[] value() default {};
 }

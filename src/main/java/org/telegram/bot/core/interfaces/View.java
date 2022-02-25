@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import java.io.Serializable;
 import java.util.List;
 
-public interface IView<T>{
+public interface View<T>{
 
     Class<T> getGenericType();
 

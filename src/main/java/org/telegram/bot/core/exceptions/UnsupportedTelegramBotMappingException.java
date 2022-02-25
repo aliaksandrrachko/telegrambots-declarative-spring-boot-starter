@@ -9,9 +9,9 @@ public class UnsupportedTelegramBotMappingException extends RuntimeException{
     private static final String MESSAGE_PATTERN = "Not found handlers method for bot command '%s'";
 
     @Getter
-    private final String[] value;
+    private final transient Object[] value;
 
-    public UnsupportedTelegramBotMappingException(String... value) {
+    public UnsupportedTelegramBotMappingException(Object... value) {
         super(String.format(MESSAGE_PATTERN, Arrays.toString(value)));
         this.value = value;
     }

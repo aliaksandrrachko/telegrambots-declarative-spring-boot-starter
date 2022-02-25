@@ -1,7 +1,7 @@
 package org.telegram.bot.core.views;
 
 import org.springframework.stereotype.Component;
-import org.telegram.bot.core.interfaces.IView;
+import org.telegram.bot.core.interfaces.View;
 import org.telegram.bot.core.utils.SendMessageUtil;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class StringView implements IView<String> {
+public class StringView implements View<String> {
 
     @Override
     public Class<String> getGenericType() {

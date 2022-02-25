@@ -1,19 +1,19 @@
 package org.telegram.bot.core.views;
 
-import org.telegram.bot.core.interfaces.IView;
+import org.telegram.bot.core.interfaces.View;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericListView implements IView<List<?>> {
+public class GenericListView implements View<List<?>> {
 
-    private final IView<?> iView;
+    private final View<?> iView;
 
     protected Class<?> clazz;
 
-    public GenericListView(IView<?> iView, Class<?> clazz) {
+    public GenericListView(View<?> iView, Class<?> clazz) {
         this.iView = iView;
         this.clazz = clazz;
     }
