@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.github.aliaksandrrachko.telegram.bot.services.IUserStateService;
 
 @Configuration
-@ComponentScan(basePackages = {"org.telegram.bot.core"})
+@ComponentScan(basePackages = {"io.github.aliaksandrrachko.telegram.bot"})
 @ConditionalOnProperty(prefix = "bot", name = {"name", "token"})
 @ConditionalOnBean(value = {IUserStateService.class})
 public class TelegramBotConfig {
