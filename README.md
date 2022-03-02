@@ -79,7 +79,7 @@ bot.token=bot_token
 4. After that your bot commands handlers will look like:
 
 ```java
-import org.telegram.bot.core.annotations.CallBack;
+import CallBack;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 // Handlers annotation
@@ -105,7 +105,7 @@ public class StartHandler {
 }
 ```
 
-See another annotation in package [org.telegram.bot.core.annotation](/src/main/java/org/telegram/bot/core/annotations)
+See another annotation in package [org.telegram.bot.core.annotation](/com/github/aliaksandrrachko/telegram/bot/core/annotations)
 
 ## Telegram Bot API
 This library use [Telegram bot API](https://core.telegram.org/bots),
