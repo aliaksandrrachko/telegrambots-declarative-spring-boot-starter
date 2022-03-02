@@ -37,11 +37,6 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
     }
 
     @Override
-    public Map<String, Object> getAllHandlersBean() {
-        return this.annotatedHandlers;
-    }
-
-    @Override
     public Method getSupportedMethod(Operation operation, String... value) {
         return getSupportedValuesMethod(operation.getAnnotationClass(), value);
     }
