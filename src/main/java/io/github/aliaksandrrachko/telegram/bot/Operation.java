@@ -1,10 +1,10 @@
 package io.github.aliaksandrrachko.telegram.bot;
 
-import io.github.aliaksandrrachko.telegram.bot.annotations.MessageTextQuery;
-import io.github.aliaksandrrachko.telegram.bot.annotations.State;
+import io.github.aliaksandrrachko.telegram.bot.annotation.MessageTextQuery;
+import io.github.aliaksandrrachko.telegram.bot.annotation.State;
 import lombok.Getter;
-import io.github.aliaksandrrachko.telegram.bot.annotations.CallBack;
-import io.github.aliaksandrrachko.telegram.bot.annotations.Command;
+import io.github.aliaksandrrachko.telegram.bot.annotation.CallBack;
+import io.github.aliaksandrrachko.telegram.bot.annotation.Command;
 
 import java.lang.annotation.Annotation;
 

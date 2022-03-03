@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.aliaksandrrachko.telegram.bot.configuration.TelegramBotConfig
+io.github.aliaksandrrachko.telegram.bot.config.TelegramBotConfig

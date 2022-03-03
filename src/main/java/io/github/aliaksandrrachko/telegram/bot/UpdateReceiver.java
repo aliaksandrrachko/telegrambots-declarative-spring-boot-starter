@@ -1,15 +1,15 @@
 package io.github.aliaksandrrachko.telegram.bot;
 
-import io.github.aliaksandrrachko.telegram.bot.interfaces.AnnotationMethodHandlerSupplier;
-import io.github.aliaksandrrachko.telegram.bot.interfaces.MethodExecutor;
-import io.github.aliaksandrrachko.telegram.bot.interfaces.ViewSupplier;
+import io.github.aliaksandrrachko.telegram.bot.method.AnnotationMethodHandlerSupplier;
+import io.github.aliaksandrrachko.telegram.bot.method.MethodExecutor;
+import io.github.aliaksandrrachko.telegram.bot.view.ViewSupplier;
 import io.github.aliaksandrrachko.telegram.bot.utils.SendMessageUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import io.github.aliaksandrrachko.telegram.bot.exceptions.UnsupportedTelegramBotMappingException;
-import io.github.aliaksandrrachko.telegram.bot.interfaces.View;
-import io.github.aliaksandrrachko.telegram.bot.services.IUserStateService;
+import io.github.aliaksandrrachko.telegram.bot.exception.UnsupportedTelegramBotMappingException;
+import io.github.aliaksandrrachko.telegram.bot.view.View;
+import io.github.aliaksandrrachko.telegram.bot.user.service.IUserStateService;
 import io.github.aliaksandrrachko.telegram.bot.update.UpdateHolder;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
