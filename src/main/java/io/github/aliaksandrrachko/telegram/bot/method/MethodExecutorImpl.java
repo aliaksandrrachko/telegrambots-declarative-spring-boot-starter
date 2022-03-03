@@ -43,7 +43,7 @@ public class MethodExecutorImpl implements MethodExecutor {
 
     private void setParameterFromSource(Class<?> aClass, int index, Object[] destination, List<Object> source) {
         source.stream()
-                .filter(o -> aClass.isInstance(aClass))
+                .filter(aClass::isInstance)
                 .findAny()
                 .ifPresent(o -> destination[index] = o);
     }
