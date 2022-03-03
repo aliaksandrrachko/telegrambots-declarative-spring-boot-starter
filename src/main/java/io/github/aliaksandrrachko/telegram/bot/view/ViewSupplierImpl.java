@@ -1,12 +1,9 @@
 package io.github.aliaksandrrachko.telegram.bot.view;
 
 import io.github.aliaksandrrachko.telegram.bot.exception.UnsupportedViewException;
-import io.github.aliaksandrrachko.telegram.bot.view.ViewSupplier;
-import io.github.aliaksandrrachko.telegram.bot.view.View;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import io.github.aliaksandrrachko.telegram.bot.view.GenericListView;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;

@@ -1,6 +1,5 @@
 package io.github.aliaksandrrachko.telegram.bot.annotation;
 
-
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Documented;

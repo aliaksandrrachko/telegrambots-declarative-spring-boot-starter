@@ -2,7 +2,6 @@ package io.github.aliaksandrrachko.telegram.bot.method;
 
 import io.github.aliaksandrrachko.telegram.bot.Operation;
 import io.github.aliaksandrrachko.telegram.bot.annotation.Handler;
-import io.github.aliaksandrrachko.telegram.bot.method.AnnotationMethodHandlerSupplier;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
 package io.github.aliaksandrrachko.telegram.bot.method;
 
-import io.github.aliaksandrrachko.telegram.bot.method.AnnotationMethodHandlerSupplier;
-import io.github.aliaksandrrachko.telegram.bot.method.MethodExecutor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import io.github.aliaksandrrachko.telegram.bot.update.UpdateHolder;
