@@ -33,7 +33,6 @@ public class Example {
     public List<String> examples(Message message, Update update, CallbackQuery callbackQuery) {
         List<String> result = new ArrayList<>();
         result.add("Command:");
-        message.getChat().getId();
         result.add("/declarative_bot_example_get_my_name");
         result.add("/declarative_bot_example_count");
         return result;
