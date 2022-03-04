@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class StringView implements View<String> {
+public class IntegerView implements View<Integer>{
 
     @Override
-    public Class<String> getGenericType() {
-        return String.class;
+    public Class<Integer> getGenericType() {
+        return Integer.class;
     }
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
         List<PartialBotApiMethod<? extends Serializable>> sendMessages = new ArrayList<>();
         SendMessage messageTemplate = SendMessageUtil.createMessageTemplate(chatId);
-        messageTemplate.setText((String) entity);
+        messageTemplate.setText(String.valueOf(entity != null ? (int) entity : ""));
         sendMessages.add(messageTemplate);
         return sendMessages;
     }
 
     @Override
     public boolean supports(Class<?> entityClass) {
-        return String.class.isAssignableFrom(entityClass);
+        return Integer.class.isAssignableFrom(entityClass);
     }
 }

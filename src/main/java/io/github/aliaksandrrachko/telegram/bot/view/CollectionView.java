@@ -4,30 +4,31 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class GenericListView implements View<List<?>> {
+public class CollectionView implements View<Collection<?>> {
 
-    private final View<?> iView;
-
+    private final ViewSupplier viewSupplier;
     protected Class<?> clazz;
 
-    public GenericListView(View<?> iView, Class<?> clazz) {
-        this.iView = iView;
+    public CollectionView(ViewSupplier viewSupplier, Class<?> clazz) {
+        this.viewSupplier = viewSupplier;
         this.clazz = clazz;
     }
 
     @Override
-    public Class<List<?>> getGenericType() {
+    public Class<Collection<?>> getGenericType() {
         return null;
     }
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
-        List<?> castedList = (List<?>) entity;
+        Collection<?> collection = (Collection<?>) entity;
         List<PartialBotApiMethod<? extends Serializable>>  sendMessages = new ArrayList<>();
-        castedList.forEach(e -> {
-            List<PartialBotApiMethod<? extends Serializable>> render = iView.render(e, chatId);
+        View<?> view = viewSupplier.get(clazz);
+        collection.forEach(e -> {
+            List<PartialBotApiMethod<? extends Serializable>> render = view.render(e, chatId);
             sendMessages.addAll(render);
         });
         return sendMessages;
@@ -35,6 +36,6 @@ public class GenericListView implements View<List<?>> {
 
     @Override
     public boolean supports(Class<?> entityClass) {
-        return entityClass != null && entityClass.isInstance(List.class);
+        return entityClass != null && Collection.class.isAssignableFrom(entityClass);
     }
 }

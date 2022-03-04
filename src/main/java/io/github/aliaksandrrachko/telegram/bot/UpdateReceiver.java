@@ -49,7 +49,7 @@ public class UpdateReceiver {
     @SneakyThrows
     private List<PartialBotApiMethod<? extends Serializable>> process(Method method, Long chatId, Object... args) {
         Object invokesResult = methodExecutor.execute(method, args);
-        View<?> supportingViewByClass = viewSupplier.get(invokesResult, method);
+        View<?> supportingViewByClass = viewSupplier.get(invokesResult, method.getGenericReturnType());
         return supportingViewByClass.render(invokesResult, String.valueOf(chatId));
     }
 

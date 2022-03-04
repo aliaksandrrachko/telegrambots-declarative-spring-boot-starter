@@ -25,6 +25,6 @@ public class SendMessageView implements View<SendMessage> {
 
     @Override
     public boolean supports(Class<?> entityClass) {
-        return entityClass.equals(SendMessage.class);
+        return SendMessage.class.isAssignableFrom(entityClass);
     }
 }

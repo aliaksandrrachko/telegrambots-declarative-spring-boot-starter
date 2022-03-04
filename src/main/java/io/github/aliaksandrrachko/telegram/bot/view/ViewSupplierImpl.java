@@ -2,11 +2,13 @@ package io.github.aliaksandrrachko.telegram.bot.view;
 
 import io.github.aliaksandrrachko.telegram.bot.exception.UnsupportedViewException;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,38 +23,37 @@ public class ViewSupplierImpl implements ViewSupplier {
 
     @Override
     @SneakyThrows
+    public <T> View<T> get(T methodResult, Type type) {
+        if (type instanceof Class<?> clazz) {
+            if (clazz.isArray()) {
+                Class<?> arrayClass = clazz.componentType();
+                throw new UnsupportedViewException(clazz);
+            } else {
+                return get(clazz);
+            }
+        } else if (type instanceof ParameterizedType parameterizedType) {
+            Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+            Class<?> genericType = (Class<?>) Arrays.stream(actualTypeArguments).findAny().orElse(null);
+            return getParametrizedTypeView(methodResult.getClass(), genericType);
+        } else if (type instanceof GenericArrayType) {
+            throw new UnsupportedViewException(type.getClass());
+        } else if (type instanceof TypeVariable) {
+            throw new UnsupportedViewException(type.getClass());
+        }
+        throw new UnsupportedViewException(type.getClass());
+    }
+
     @SuppressWarnings("unchecked")
-    public <T> View<T> get(T methodResult, Method m) {
-        Type genericReturnType = m.getGenericReturnType();
-        String typeName = genericReturnType.getTypeName();
-        String parametrizedType = StringUtils.substringBetween(typeName, "<", ">");
-
-        Class<?> genericsType;
-        if (parametrizedType != null) {
-            genericsType = Class.forName(parametrizedType);
-        } else {
-            genericsType = (Class<?>) genericReturnType;
+    private <T> View<T> getParametrizedTypeView(Class<?> aClass, Class<?> genericsType) {
+        if (Collection.class.isAssignableFrom(aClass)) {
+            return (View<T>) new CollectionView(this, genericsType);
         }
-
-        return (View<T>) getSupportingViewByClass(methodResult, genericsType);
+        throw new UnsupportedViewException(aClass);
     }
 
-    private View<?> getSupportingViewByClass(Object o, Class<?> aClass) {
-        if (o instanceof Collection) {
-            return getSupportingIViewByCollectionTypeAndRowType(aClass);
-        } else {
-            return getSupportingIViewByType(o.getClass());
-        }
-    }
-
-    // todo: think about different collections Set, List
-    private View<?> getSupportingIViewByCollectionTypeAndRowType(Class<?> aClass) {
-        View<?> supportingIViewByType = getSupportingIViewByType(aClass);
-        return new GenericListView(supportingIViewByType, aClass);
-    }
-
-    private View<?> getSupportingIViewByType(Class<?> aClass) {
-        return views.parallelStream().filter(iView -> iView.supports(aClass)).findAny()
+    @SuppressWarnings("unchecked")
+    public <T> View<T> get(Class<?> aClass) {
+        return (View<T>) views.parallelStream().filter(iView -> iView.supports(aClass)).findAny()
                 .orElseThrow(() -> new UnsupportedViewException(aClass));
     }
 }
