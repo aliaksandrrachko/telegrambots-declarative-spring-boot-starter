@@ -33,6 +33,8 @@ public class MethodExecutorImpl implements MethodExecutor {
         List<Object> objects = new ArrayList<>(Arrays.stream(additionalArgs).toList());
         objects.add(UpdateHolder.get());
         objects.add(UpdateHolder.get() != null ? UpdateHolder.get().getMessage() : null);
+        objects.add(UpdateHolder.get() != null && UpdateHolder.get().hasMessage() ?
+                UpdateHolder.get().getCallbackQuery().getMessage() : null);
         objects.add( UpdateHolder.get() != null ? UpdateHolder.get().getCallbackQuery() : null);
 
         for (int i = 0; i < parameters.length; i++) {
