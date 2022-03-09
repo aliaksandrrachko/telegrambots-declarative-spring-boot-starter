@@ -62,6 +62,10 @@ public class UpdateReceiver {
             Method supportedBotMethod = null;
             if (isMessageWithCommandWithoutCallBackQuery(update)) {
                 supportedBotMethod = methodHandlerSupplier.getSupportedMethod(COMMAND, message.getText());
+            } else if (update.hasCallbackQuery()) {
+                final CallbackQuery callbackQuery = update.getCallbackQuery();
+                // there you can get user id
+                supportedBotMethod = methodHandlerSupplier.getSupportedMethod(CALL_BACK, callbackQuery.getData());
             } else if (isMessageWithTextWithoutCallBackQuery(update)) {
                 String stateForUserById = this.userStateService.getState(update.getMessage().getFrom().getId());
                 // operate only message doesn't start with '/'
@@ -70,10 +74,6 @@ public class UpdateReceiver {
                 } else {
                     supportedBotMethod = methodHandlerSupplier.getSupportedMethod(STATE, stateForUserById);
                 }
-            } else if (update.hasCallbackQuery()) {
-                final CallbackQuery callbackQuery = update.getCallbackQuery();
-                // there you can get user id
-                supportedBotMethod = methodHandlerSupplier.getSupportedMethod(CALL_BACK, callbackQuery.getData());
             }
 
             return process(supportedBotMethod, message.getChatId());
