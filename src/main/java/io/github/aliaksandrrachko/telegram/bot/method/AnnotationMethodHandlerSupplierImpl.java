@@ -119,13 +119,15 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
                             valueFieldMatchResult = isValueFieldMatchResult(annotation, annotationsMethod, value);
                             regexFieldMathResult = isRegexFieldMathResult(annotation, annotationsMethod, value);
                             // there you can add some 'else'
+                            if (valueFieldMatchResult || regexFieldMathResult){
+                                return true;
+                            }
                         }
-                        return valueFieldMatchResult || regexFieldMathResult;
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         log.error(e.getMessage(), e);
                     }
                     // there get class of value from annotation
-                    return true;
+                    return false;
                 }).toList();
 
         if (foundMethods.size() != 1){
