@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MethodExecutorImpl implements MethodExecutor {
@@ -30,7 +31,7 @@ public class MethodExecutorImpl implements MethodExecutor {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
 
-        List<Object> objects = new ArrayList<>(Arrays.stream(additionalArgs).toList());
+        List<Object> objects = Arrays.stream(additionalArgs).collect(Collectors.toList());
         objects.add(UpdateHolder.get());
         objects.add(UpdateHolder.get() != null ? UpdateHolder.get().getMessage() : null);
         objects.add(UpdateHolder.get() != null && UpdateHolder.get().hasCallbackQuery() ?

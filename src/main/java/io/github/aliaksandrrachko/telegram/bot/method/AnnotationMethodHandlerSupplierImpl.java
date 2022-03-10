@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -60,7 +61,7 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
                     }
                     // there get class of value from annotation
                     return true;
-                }).toList();
+                }).collect(Collectors.toList());
 
         if (foundMethods.size() != 1){
             return null;
@@ -75,8 +76,8 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
             Object valueFromAnnotation = annotationsMethod.invoke(annotation);
             if (valueFromAnnotation instanceof Class<?>) {
                 return Arrays.asList(values).contains(valueFromAnnotation);
-            } else if (valueFromAnnotation instanceof Class<?>[] classes){
-                return Arrays.stream(values).anyMatch(s -> Arrays.asList(classes).contains(s));
+            } else if (valueFromAnnotation instanceof Class<?>[]){
+                return Arrays.stream(values).anyMatch(s -> Arrays.asList((Class<?>[]) valueFromAnnotation).contains(s));
             }
         }
         return false;
@@ -101,7 +102,7 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
                 .collect(ArrayList::new, (methods, o) -> {
                     List<Method> collect = Arrays.stream(o.getClass().getMethods())
                             .filter(objectMethod -> objectMethod.isAnnotationPresent(annotationType))
-                            .toList();
+                            .collect(Collectors.toList());
                     methods.addAll(collect);
                 }, ArrayList::addAll);
     }
@@ -128,7 +129,7 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
                     }
                     // there get class of value from annotation
                     return false;
-                }).toList();
+                }).collect(Collectors.toList());
 
         if (foundMethods.size() != 1){
             throw new UnsupportedTelegramBotMappingException(value);
@@ -156,8 +157,8 @@ public class AnnotationMethodHandlerSupplierImpl implements AnnotationMethodHand
             Object valueFromAnnotation = annotationsMethod.invoke(annotation);
             if (valueFromAnnotation instanceof String) {
                 return Arrays.asList(values).contains(valueFromAnnotation);
-            } else if (valueFromAnnotation instanceof String[] strings){
-                return Arrays.stream(values).anyMatch(s -> Arrays.asList(strings).contains(s));
+            } else if (valueFromAnnotation instanceof String[]){
+                return Arrays.stream(values).anyMatch(s -> Arrays.asList((String[]) valueFromAnnotation).contains(s));
             }
         }
         return false;

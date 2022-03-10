@@ -24,15 +24,15 @@ public class ViewSupplierImpl implements ViewSupplier {
     @Override
     @SneakyThrows
     public <T> View<T> get(T methodResult, Type type) {
-        if (type instanceof Class<?> clazz) {
+        if (type instanceof Class<?>) {
+            Class<?> clazz = (Class<?>) type;
             if (clazz.isArray()) {
-                Class<?> arrayClass = clazz.componentType();
                 throw new UnsupportedViewException(clazz);
             } else {
                 return get(clazz);
             }
-        } else if (type instanceof ParameterizedType parameterizedType) {
-            Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        } else if (type instanceof ParameterizedType) {
+            Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
             Class<?> genericType = (Class<?>) Arrays.stream(actualTypeArguments).findAny().orElse(null);
             return getParametrizedTypeView(methodResult.getClass(), genericType);
         } else if (type instanceof GenericArrayType) {

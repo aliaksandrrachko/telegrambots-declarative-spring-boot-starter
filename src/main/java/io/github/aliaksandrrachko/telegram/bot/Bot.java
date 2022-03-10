@@ -67,8 +67,8 @@ public class Bot extends TelegramLongPollingBot implements TelegramBotMessageSen
     private void extracted(List<PartialBotApiMethod<? extends Serializable>> messagesToSend) {
         if (messagesToSend != null && !messagesToSend.isEmpty()) {
             messagesToSend.forEach(response -> {
-                if (response instanceof SendMessage sendMessage) {
-                    executeWithExceptionCheck(sendMessage);
+                if (response instanceof SendMessage) {
+                    executeWithExceptionCheck((SendMessage) response);
                 }
             });
         }
