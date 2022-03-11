@@ -30,10 +30,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</connection>
-        <developerConnection>scm:git:git@github.com:aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</developerConnection>
-        <url>https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter/tree/master</url>
-  </scm>
+        <developerConnection>scm:git:${repository.url}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <developers>
         <developer>
@@ -64,6 +63,7 @@
         <com.google.guava.version>31.0.1-jre</com.google.guava.version>
         <gpg.keyname>0x5FD4186B</gpg.keyname>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <repository.url>https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</repository.url>
     </properties>
 
     <dependencies>
