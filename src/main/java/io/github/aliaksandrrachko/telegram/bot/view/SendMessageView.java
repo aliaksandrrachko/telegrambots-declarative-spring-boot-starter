@@ -14,7 +14,8 @@ public class SendMessageView implements View<SendMessage> {
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
         List<PartialBotApiMethod<? extends Serializable>> sendMessages = new ArrayList<>();
-        sendMessages.add(getGenericType().cast(entity));
+        SendMessage sendMessage = getGenericType().cast(entity);
+        sendMessages.add(sendMessage);
         return sendMessages;
     }
 
