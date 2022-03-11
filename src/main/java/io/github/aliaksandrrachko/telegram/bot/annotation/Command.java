@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation for handling {@link Message} requests onto specific handler method.
- * <br/> In method with this annotation can be injected {@link Message}.
+ * <br> In method with this annotation can be injected {@link Message}. </br>
  *
  * @see Message
  * @see UpdateReceiver
