@@ -50,7 +50,7 @@ public class Bot extends TelegramLongPollingBot implements TelegramBotMessageSen
         try {
             this.execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("oops");
+            log.error("Error sending message", e);
         }
     }
 
@@ -67,7 +67,7 @@ public class Bot extends TelegramLongPollingBot implements TelegramBotMessageSen
     private void extracted(List<PartialBotApiMethod<? extends Serializable>> messagesToSend) {
         if (messagesToSend != null && !messagesToSend.isEmpty()) {
             messagesToSend.forEach(response -> {
-                if (response instanceof SendMessage) {
+                if (response instanceof BotApiMethod) {
                     executeWithExceptionCheck((SendMessage) response);
                 }
             });
