@@ -61,6 +61,7 @@
         <telegramboots.spring.boot.starter.version>5.3.0</telegramboots.spring.boot.starter.version>
         <org.apache.commons.version>3.7</org.apache.commons.version>
         <com.google.guava.version>31.0.1-jre</com.google.guava.version>
+        <org.apache.maven.plugins.gpg.version>1.5</org.apache.maven.plugins.gpg.version>
         <gpg.keyname>0x5FD4186B</gpg.keyname>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <repository.url>https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter.git</repository.url>
@@ -166,6 +167,18 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <build>
@@ -173,12 +186,8 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version>
+                    <version>${org.apache.maven.plugins.gpg.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
