@@ -12,7 +12,7 @@ import java.util.List;
 public class SendMessageView implements View<SendMessage> {
 
     @Override
-    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
+    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String id) {
         List<PartialBotApiMethod<? extends Serializable>> sendMessages = new ArrayList<>();
         SendMessage sendMessage = getGenericType().cast(entity);
         sendMessages.add(sendMessage);

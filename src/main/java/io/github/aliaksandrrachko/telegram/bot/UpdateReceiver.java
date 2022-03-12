@@ -11,6 +11,7 @@ import io.github.aliaksandrrachko.telegram.bot.exception.UnsupportedTelegramBotM
 import io.github.aliaksandrrachko.telegram.bot.view.View;
 import io.github.aliaksandrrachko.telegram.bot.user.service.IUserStateService;
 import io.github.aliaksandrrachko.telegram.bot.update.UpdateHolder;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -50,6 +51,14 @@ public class UpdateReceiver {
     private List<PartialBotApiMethod<? extends Serializable>> process(Method method, Long chatId, Object... args) {
         Object invokesResult = methodExecutor.execute(method, args);
         View<?> supportingViewByClass = viewSupplier.get(invokesResult, method.getGenericReturnType());
+
+        String identifier;
+        if (supportingViewByClass.supports(AnswerCallbackQuery.class)){
+            identifier = UpdateHolder.get().getCallbackQuery().getId();
+        } else {
+            identifier = String.valueOf(chatId);
+        }
+
         return supportingViewByClass.render(invokesResult, String.valueOf(chatId));
     }
 

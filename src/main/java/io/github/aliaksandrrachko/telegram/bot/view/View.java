@@ -9,7 +9,7 @@ public interface View<T>{
 
     Class<T> getGenericType();
 
-    List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId);
+    List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String id);
 
     boolean supports(Class<?> entityClass);
 }

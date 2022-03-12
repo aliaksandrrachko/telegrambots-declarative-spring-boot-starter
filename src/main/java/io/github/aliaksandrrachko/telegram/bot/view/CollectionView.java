@@ -23,12 +23,12 @@ public class CollectionView implements View<Collection<?>> {
     }
 
     @Override
-    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
+    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String id) {
         Collection<?> collection = (Collection<?>) entity;
         List<PartialBotApiMethod<? extends Serializable>>  sendMessages = new ArrayList<>();
         View<?> view = viewSupplier.get(clazz);
         collection.forEach(e -> {
-            List<PartialBotApiMethod<? extends Serializable>> render = view.render(e, chatId);
+            List<PartialBotApiMethod<? extends Serializable>> render = view.render(e, id);
             sendMessages.addAll(render);
         });
         return sendMessages;

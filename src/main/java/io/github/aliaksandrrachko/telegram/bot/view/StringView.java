@@ -18,9 +18,9 @@ public class StringView implements View<String> {
     }
 
     @Override
-    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
+    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String id) {
         List<PartialBotApiMethod<? extends Serializable>> sendMessages = new ArrayList<>();
-        SendMessage messageTemplate = SendMessageUtil.createMessageTemplate(chatId);
+        SendMessage messageTemplate = SendMessageUtil.createMessageTemplate(id);
         messageTemplate.setText((String) entity);
         sendMessages.add(messageTemplate);
         return sendMessages;

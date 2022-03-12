@@ -17,7 +17,7 @@ public class AnswerCallBackQueryView implements View<AnswerCallbackQuery> {
     }
 
     @Override
-    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String chatId) {
+    public List<PartialBotApiMethod<? extends Serializable>> render(Object entity, String id) {
         List<PartialBotApiMethod<? extends Serializable>> answerCallBackQueries = new ArrayList<>();
         AnswerCallbackQuery answerCallbackQuery = getGenericType().cast(entity);
         answerCallBackQueries.add(answerCallbackQuery);
