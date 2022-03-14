@@ -105,6 +105,9 @@ public class StartHandler {
 }
 ```
 
+Note:
+* Use `MarkdownV2Util` for prepending symbols.
+
 See another annotation in package [org.telegram.bot.core.annotation](/com/github/aliaksandrrachko/telegram/bot/core/annotations)
 
 ## Telegram Bot API
@@ -118,3 +121,32 @@ you can find more information following the link.
 Feel free to create issues [here](https://github.com/aliaksandrrachko/telegrambots-declarative-spring-boot-starter/issues)
 
 ----------------
+
+## MarkdownV2 style
+To use this mode, pass MarkdownV2 in the parse_mode field. Use the following syntax in your message:
+
+```
+*bold \*text*
+_italic \*text_
+__underline__
+~strikethrough~
+||spoiler||
+*bold _italic bold ~italic bold strikethrough ||italic bold strikethrough spoiler||~ __underline italic bold___ bold*
+[inline URL](http://www.example.com/)
+[inline mention of a user](tg://user?id=123456789)
+`inline fixed-width code`
+```
+
+Please note:
+
+* Any character with code between 1 and 126 inclusively can be escaped anywhere with a preceding '\' character, in which
+  case it is treated as an ordinary character and not a part of the markup. This implies that '\' character usually must
+  be escaped with a preceding '\' character.
+* Inside `pre` and `code` entities, all '\`' and '\' characters must be escaped with a preceding '\' character.
+* Inside `(...)` part of inline link definition, all ')' and '\' must be escaped with a preceding '\' character.
+* In all other places characters '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '
+  .', '!'
+  must be escaped with the preceding character '\'.
+* In case of ambiguity between `italic` and `underline` entities `__` is always greadily treated from left to right as
+  beginning or end of `underline` entity, so instead of `___italic underline___` use `___italic underline_\r__`,
+  where `\r` is a character with code 13, which will be ignored.

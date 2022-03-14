@@ -1,6 +1,7 @@
 package io.github.aliaksandrrachko.telegram.bot.utils;
 
 import lombok.experimental.UtilityClass;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @UtilityClass
@@ -15,7 +16,7 @@ public class SendMessageUtil {
     public SendMessage createMessageTemplate(String chatId) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.enableMarkdown(true);
+        message.setParseMode(ParseMode.MARKDOWNV2);
         return message;
     }
 

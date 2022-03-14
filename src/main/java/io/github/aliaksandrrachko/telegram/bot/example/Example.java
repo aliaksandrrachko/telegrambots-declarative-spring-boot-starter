@@ -40,6 +40,7 @@ public class Example {
         List<String> result = new ArrayList<>();
         result.add("Command:");
         result.add("declarative_bot_example_get_my_name");
+        result.add("integer");
         result.add("declarative_bot_example_count");
         return result;
     }
